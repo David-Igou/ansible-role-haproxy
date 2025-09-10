@@ -19,15 +19,10 @@ defaults
   mode  http
   option  httplog
   option  dontlognull
-{% if haproxy_version is version('1.4', '<=') %}
-        contimeout {{ haproxy_connect_timeout }}
-        clitimeout {{ haproxy_client_timeout }}
-        srvtimeout {{ haproxy_server_timeout }}
-{% else %}
-        timeout connect {{ haproxy_connect_timeout }}
-        timeout client {{ haproxy_client_timeout }}
-        timeout server {{ haproxy_server_timeout }}
-{% endif %}
+  timeout connect {{ haproxy_connect_timeout }}
+  timeout client {{ haproxy_client_timeout }}
+  timeout server {{ haproxy_server_timeout }}
+
 {% if ansible_os_family == 'Debian' %}
   errorfile 400 /etc/haproxy/errors/400.http
   errorfile 403 /etc/haproxy/errors/403.http
@@ -38,19 +33,34 @@ defaults
   errorfile 504 /etc/haproxy/errors/504.http
 {% endif %}
 
-frontend {{ haproxy_frontend_name }}
-    bind {{ haproxy_frontend_bind_address }}:{{ haproxy_frontend_port }}
-    mode {{ haproxy_frontend_mode }}
-    default_backend {{ haproxy_backend_name }}
-
-backend {{ haproxy_backend_name }}
-    mode {{ haproxy_backend_mode }}
-    balance {{ haproxy_backend_balance_method }}
-    option forwardfor
-{% if haproxy_backend_httpchk != '' %}
-    option httpchk {{ haproxy_backend_httpchk }}
+{% for frontend in haproxy_frontends %}
+frontend {{ frontend.name }}
+  bind {{ frontend.bind_address }}:{{ frontend.bind_port }}
+  mode {{ frontend.mode }}
+  default_backend {{ frontend.default_backend }}
+{% if frontend.extra_options is defined %}
+{% for option in frontend.extra_options %}
+  {{ option }}
+{% endfor %}
 {% endif %}
-    cookie SERVERID insert indirect
-{% for backend in haproxy_backend_servers %}
-    server {{ backend.name }} {{ backend.address }} cookie {{ backend.name }} check
+
+{% endfor %}
+
+{% for backend in haproxy_backends %}
+backend {{ backend.name }}
+  mode {{ backend.mode }}
+  balance {{ backend.balance_method }}
+{% if backend.cookie is defined and backend.cookie != '' %}
+  cookie {{ backend.cookie }}
+{% endif %}
+{% if backend.extra_options is defined %}
+{% for option in backend.extra_options %}
+  {{ option }}
+{% endfor %}
+{% endif %}
+{% for server in backend.servers %}
+  server {{ server.name }} {{ server.address }}{% if server.cookie is defined and server.cookie != '' %} cookie {{ server.cookie }}{% endif %}{% if server.options is defined %} {{ server.options | join(' ') }}
+{% endif %}
+{% endfor %}
+
 {% endfor %}
