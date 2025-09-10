@@ -4,6 +4,7 @@ dependencies: []
 galaxy_info:
   role_name: haproxy
   author: David-Igou
+  namespace: David-Igou
   description: HAProxy installation and configuration.
   license: "license (BSD, MIT)"
   min_ansible_version: "2.10"
