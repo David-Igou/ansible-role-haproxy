@@ -28,7 +28,7 @@
     dest: /etc/haproxy/haproxy.cfg
     mode: 0644
     validate: haproxy -f %s -c
-  notify: restart haproxy
+  notify: Restart haproxy
 
 - name: Ensure HAProxy is started and enabled on boot.
   ansible.builtin.service:
