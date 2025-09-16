@@ -2,16 +2,27 @@
 - name: Converge
   hosts: all
   #become: true
-
   vars:
     haproxy_socket: ''
     haproxy_chroot: ''
     haproxy_user: root
     haproxy_group: root
+    haproxy_frontends:
+      - name: "https-in"
+        bind_address: "0.0.0.0"
+        bind_port: 443
+        mode: "tcp"
+        default_backend: "https"
+        extra_options:
+          - "option tcplog"
+    haproxy_backends:
+      - name: "https"
+        mode: "tcp"
+        balance_method: "source"
+        servers:
+          - name: "app1"
+            address: "127.0.0.1:8080"
 
-    haproxy_backend_servers:
-      - name: app1
-        address: 127.0.0.1:8080
 
   pre_tasks:
     - name: Update apt cache.
