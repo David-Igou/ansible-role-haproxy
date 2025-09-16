@@ -1,0 +1,37 @@
+---
+- name: Install webserver
+  hosts: webserver
+  gather_facts: true
+  tasks:
+    - name: Install Apache on Debian/Ubuntu
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install Apache on RedHat/CentOS
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Ensure Apache service is enabled and started (Debian)
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: true
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Ensure Apache service is enabled and started (RedHat)
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Create a simple index.html
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "hello world"

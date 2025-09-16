@@ -1,0 +1,65 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+    role-file: requirements.yml
+platforms:
+  - name: rhel9
+    image: registry.redhat.io/rhel9/rhel-guest-image
+    namespace: molecule-testing
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: debian13
+    image: quay.io/containerdisks/debian:13
+    namespace: molecule-testing
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: debian12
+    image: quay.io/containerdisks/debian:12
+    namespace: molecule-testing
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: debian11
+    image: quay.io/containerdisks/debian:11
+    namespace: molecule-testing
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  # - name: rhel8
+  #   image: registry.redhat.io/rhel8/rhel-guest-image
+  #   namespace: molecule-testing
+  #   ssh_service:
+  #     type: NodePort
+  #   ansible_user: cloud-user
+  #   memory: 1Gi
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+    ssh_connection:
+      pipelining: false
+  log: true
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy

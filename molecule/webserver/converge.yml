@@ -1,0 +1,34 @@
+- name: Configure haproxy
+  hosts: haproxy
+  gather_facts: true
+  vars:
+    haproxy_socket: ''
+    haproxy_chroot: ''
+    haproxy_user: root
+    haproxy_group: root
+    haproxy_frontends:
+      - name: "http-in"
+        bind_address: "0.0.0.0"
+        bind_port: 80
+        mode: "http"
+        default_backend: "http"
+        extra_options:
+          - "option tcplog"
+    haproxy_backends:
+      - name: "http"
+        mode: "http"
+        balance_method: "roundrobin"
+        servers:
+          - name: "webserver"
+            address: "webserver:80"
+            options:
+              - "check"
+  pre_tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - role: David-Igou.haproxy
