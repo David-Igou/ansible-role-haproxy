@@ -34,13 +34,6 @@ platforms:
       type: NodePort
     ansible_user: cloud-user
     memory: 1Gi
-  - name: rhel8
-    image: registry.redhat.io/rhel8/rhel-guest-image
-    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-    ssh_service:
-      type: NodePort
-    ansible_user: cloud-user
-    memory: 1Gi
 provisioner:
   name: ansible
   config_options:
