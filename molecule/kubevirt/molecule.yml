@@ -3,40 +3,40 @@ role_name_check: 1
 dependency:
   name: galaxy
   options:
-    requirements-file: requirements.yml
-    role-file: requirements.yml
+    requirements-file: ${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml
+    role-file: ${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml
 platforms:
   - name: rhel9
     image: registry.redhat.io/rhel9/rhel-guest-image
-    namespace: molecule-testing
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
     ssh_service:
       type: NodePort
     ansible_user: cloud-user
     memory: 1Gi
-  - name: debian13
-    image: quay.io/containerdisks/debian:13
-    namespace: molecule-testing
-    ssh_service:
-      type: NodePort
-    ansible_user: cloud-user
-    memory: 1Gi
-  - name: debian12
-    image: quay.io/containerdisks/debian:12
-    namespace: molecule-testing
-    ssh_service:
-      type: NodePort
-    ansible_user: cloud-user
-    memory: 1Gi
-  - name: debian11
-    image: quay.io/containerdisks/debian:11
-    namespace: molecule-testing
-    ssh_service:
-      type: NodePort
-    ansible_user: cloud-user
-    memory: 1Gi
+  # - name: debian13
+  #   image: quay.io/containerdisks/debian:13
+  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+  #   ssh_service:
+  #     type: NodePort
+  #   ansible_user: cloud-user
+  #   memory: 1Gi
+  # - name: debian12
+  #   image: quay.io/containerdisks/debian:12
+  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+  #   ssh_service:
+  #     type: NodePort
+  #   ansible_user: cloud-user
+  #   memory: 1Gi
+  # - name: debian11
+  #   image: quay.io/containerdisks/debian:11
+  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+  #   ssh_service:
+  #     type: NodePort
+  #   ansible_user: cloud-user
+  #   memory: 1Gi
   # - name: rhel8
   #   image: registry.redhat.io/rhel8/rhel-guest-image
-  #   namespace: molecule-testing
+  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
   #   ssh_service:
   #     type: NodePort
   #   ansible_user: cloud-user
