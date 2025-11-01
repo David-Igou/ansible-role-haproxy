@@ -13,34 +13,34 @@ platforms:
       type: NodePort
     ansible_user: cloud-user
     memory: 1Gi
-  # - name: debian13
-  #   image: quay.io/containerdisks/debian:13
-  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-  #   ssh_service:
-  #     type: NodePort
-  #   ansible_user: cloud-user
-  #   memory: 1Gi
-  # - name: debian12
-  #   image: quay.io/containerdisks/debian:12
-  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-  #   ssh_service:
-  #     type: NodePort
-  #   ansible_user: cloud-user
-  #   memory: 1Gi
-  # - name: debian11
-  #   image: quay.io/containerdisks/debian:11
-  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-  #   ssh_service:
-  #     type: NodePort
-  #   ansible_user: cloud-user
-  #   memory: 1Gi
-  # - name: rhel8
-  #   image: registry.redhat.io/rhel8/rhel-guest-image
-  #   namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-  #   ssh_service:
-  #     type: NodePort
-  #   ansible_user: cloud-user
-  #   memory: 1Gi
+  - name: debian13
+    image: quay.io/containerdisks/debian:13
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: debian12
+    image: quay.io/containerdisks/debian:12
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: debian11
+    image: quay.io/containerdisks/debian:11
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: rhel8
+    image: registry.redhat.io/rhel8/rhel-guest-image
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
 provisioner:
   name: ansible
   config_options:
