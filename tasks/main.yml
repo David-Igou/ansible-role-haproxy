@@ -2,9 +2,10 @@
 - name: Ensure HAProxy is installed.
   ansible.builtin.package:
     name: haproxy
+    update_cache: true
     state: present
 
-- name: Ensure HAProxy is enabled (so init script will start it on Debian).
+- name: foobar HAProxy is enabled (so init script will start it on Debian).
   ansible.builtin.lineinfile:
     dest: /etc/default/haproxy
     regexp: "^ENABLED.+$"
