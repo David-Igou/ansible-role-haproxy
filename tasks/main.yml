@@ -12,6 +12,7 @@
     state: present
   when: ansible_os_family == 'Debian'
 
+# foo
 - name: Get HAProxy version.
   ansible.builtin.command: haproxy -v
   register: haproxy_version_result
