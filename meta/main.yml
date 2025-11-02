@@ -4,16 +4,10 @@ dependencies: []
 galaxy_info:
   role_name: haproxy
   author: David-Igou
-  namespace: David-Igou
+  namespace: david-igou
   description: HAProxy installation and configuration.
   license: "license (BSD, MIT)"
   min_ansible_version: "2.10"
-  platforms:
-    - name: Ubuntu
-      versions:
-        - precise
-        - trusty
-        - xenial
   galaxy_tags:
     - web
     - networking

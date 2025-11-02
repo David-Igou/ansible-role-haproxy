@@ -1,18 +1,11 @@
 ---
-role_name_check: 1
 dependency:
   name: galaxy
   options:
+    # pip installing requirements.txt is also required here (kubernetes.core) but I can't find a way to declare that with molecule
     requirements-file: ${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml
     role-file: ${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml
 platforms:
-  - name: rhel9
-    image: registry.redhat.io/rhel9/rhel-guest-image
-    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
-    ssh_service:
-      type: NodePort
-    ansible_user: cloud-user
-    memory: 1Gi
   - name: debian13
     image: quay.io/containerdisks/debian:13
     namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
@@ -27,8 +20,29 @@ platforms:
       type: NodePort
     ansible_user: cloud-user
     memory: 1Gi
-  - name: debian11
-    image: quay.io/containerdisks/debian:11
+  - name: fedora43
+    image: quay.io/containerdisks/fedora:43
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: centos-stream9
+    image: quay.io/containerdisks/centos-stream:9
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: centos-stream10
+    image: quay.io/containerdisks/centos-stream:10
+    namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
+    ssh_service:
+      type: NodePort
+    ansible_user: cloud-user
+    memory: 1Gi
+  - name: ubuntu24
+    image: quay.io/containerdisks/ubuntu:24.04
     namespace: ${MOLECULE_NAMESPACE:-molecule-testing}
     ssh_service:
       type: NodePort

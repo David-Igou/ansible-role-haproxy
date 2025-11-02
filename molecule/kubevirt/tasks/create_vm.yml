@@ -49,6 +49,7 @@
                     users:
                       - default
                       - name: {{ vm.ansible_user }}
+                        sudo: ALL=(ALL) NOPASSWD:ALL
                         lock_passwd: true   # Locks the password
                         ssh_authorized_keys:
                           - "{{ temporary_ssh_public_key }}"  # SSH public key
