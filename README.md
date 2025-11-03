@@ -1,3 +1,5 @@
+foo
+
 # Ansible Role: HAProxy
 
 Forked from https://github.com/geerlingguy/ansible-role-haproxy
