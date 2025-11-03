@@ -93,4 +93,4 @@
   tasks:
     - name: Wait for the host to be reachable # Waits for the host to become reachable
       ansible.builtin.wait_for_connection:
-        timeout: 120 # Waits for up to 120 seconds
+        timeout: 300 # Waits for up to 300 seconds
