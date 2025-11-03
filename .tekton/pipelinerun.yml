@@ -1,0 +1,38 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: molecule-converge
+annotations:
+  pipelinesascode.tekton.dev/task-1: "[git-clone]"
+  pipelinesascode.tekton.dev/task-2: "./tasks/molecule-task.yml"
+  pipelinesascode.tekton.dev/on-event: "[pull_request]"
+  pipelinesascode.tekton.dev/on-target-branch: "[master]"
+  pipelinesascode.tekton.dev/cancel-in-progress: "true"
+  pipelinesascode.tekton.dev/max-keep-runs: "3"
+
+spec:
+  pipelineSpec:
+    workspaces:
+    - name: shared-workspace
+    tasks:
+      - name: fetch-source
+        taskRef:
+          - name: git-clone
+        params:
+        - name: url
+          value: {{ repo_url }}
+        - name: revision
+          value: {{ revision }}
+        workspaces:
+        - name: output
+          workspace: shared-workspace
+      - name: molecule
+        runAfter: ["fetch-source"]
+        taskRef:
+          name: molecule
+        workspaces:
+        - name: source
+          workspace: shared-workspace
+        params:
+        - name: molecule-scenario
+          value: "kubevirt"
