@@ -11,7 +11,7 @@ metadata:
 
 spec:
   workspaces:
-  - name: shared-data
+  - name: shared-workspace
     volumeClaimTemplate:
       spec:
         accessModes:
