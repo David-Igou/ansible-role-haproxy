@@ -20,9 +20,9 @@ spec:
           - name: git-clone
         params:
         - name: url
-          value: {{ repo_url }}
+          value: "{{ repo_url }}"
         - name: revision
-          value: {{ revision }}
+          value: "{{ revision }}"
         workspaces:
         - name: output
           workspace: shared-workspace
