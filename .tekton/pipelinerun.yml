@@ -10,6 +10,15 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
 
 spec:
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
   pipelineSpec:
     workspaces:
     - name: shared-workspace
